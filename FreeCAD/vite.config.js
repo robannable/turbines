@@ -1,9 +1,10 @@
 import { defineConfig } from 'vite'
 
 export default defineConfig({
+  base: '/turbines/freecad/',
   root: 'src',
-  base: './',
-  server: {
-    open: true
+  build: {
+    outDir: '../dist',
+    emptyOutDir: true
   }
 }) 
