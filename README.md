@@ -33,10 +33,10 @@ Created with an agentic LLM using "A BASIC COMPUTER PROGRAM to help you design w
 ## Demo
 
 ### Web Application
-[Live Demo](https://robannable.github.io/turbines/) (Coming soon)
+[Live Demo](https://robannable.github.io/turbines/)
 
 ### FreeCAD Interface
-[FreeCAD Web Interface](https://robannable.github.io/turbines/freecad/) (Coming soon)
+[FreeCAD Web Interface](https://robannable.github.io/turbines/freecad/)
 
 ## Getting Started
 
