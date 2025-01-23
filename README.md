@@ -4,13 +4,17 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.2-blue)](https://www.typescriptlang.org/)
 [![React](https://img.shields.io/badge/React-18.2-blue)](https://reactjs.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-blue)](https://tailwindcss.com/)
+[![FreeCAD](https://img.shields.io/badge/FreeCAD-0.20-orange)](https://www.freecadweb.org/)
 
-A modern web application for designing wind turbine propellers. This tool helps you calculate optimal propeller dimensions based on your generator specifications or desired diameter.
+A comprehensive tool suite for designing wind turbine propellers, consisting of:
+1. A modern web application for calculating optimal propeller dimensions
+2. A FreeCAD integration for generating 3D models
 
 Created with an agentic LLM using "A BASIC COMPUTER PROGRAM to help you design windmill rotor blades - Extract from 'Scrapyard Windpower Realities' by Hugh Piggott"
 
-## Features
+## Project Components
 
+### 1. Web Application (`/turbine-designer`)
 - Calculate propeller dimensions based on generator specifications
 - Design propellers with custom diameters
 - Real-time validation and warnings
@@ -19,9 +23,20 @@ Created with an agentic LLM using "A BASIC COMPUTER PROGRAM to help you design w
 - OpenSCAD export for 3D printing
 - Responsive design
 
+### 2. FreeCAD Integration (`/FreeCAD`)
+- Generate accurate 3D models of turbine blades
+- NACA 4412 airfoil profile implementation
+- Automatic hub connection generation
+- Export to various 3D formats (STL, STEP, etc.)
+- Compatible with FreeCAD's Python environment
+
 ## Demo
 
+### Web Application
 [Live Demo](https://robannable.github.io/turbines/) (Coming soon)
+
+### FreeCAD Interface
+[FreeCAD Web Interface](https://robannable.github.io/turbines/freecad/) (Coming soon)
 
 ## Getting Started
 
@@ -29,12 +44,9 @@ Created with an agentic LLM using "A BASIC COMPUTER PROGRAM to help you design w
 
 - Node.js 16.0 or higher
 - npm 7.0 or higher
+- FreeCAD 0.20 or higher (for 3D modeling)
 
-### Quick Start (Windows)
-
-Run the `setup.bat` file included in the project, or follow the manual installation steps below.
-
-### Manual Installation
+### Web Application Setup
 
 1. Clone the repository:
    ```bash
@@ -42,78 +54,51 @@ Run the `setup.bat` file included in the project, or follow the manual installat
    cd turbines/turbine-designer
    ```
 
-2. Install dependencies:
+2. Install dependencies and start the development server:
    ```bash
    npm install
-   ```
-
-3. Start the development server:
-   ```bash
    npm run dev
    ```
 
-4. Open your browser and navigate to `http://localhost:5173`
+3. Open your browser and navigate to `http://localhost:5173`
+
+### FreeCAD Integration
+
+1. Open FreeCAD
+2. Navigate to the Macro menu
+3. Load the generated `.FCMacro` file from the web application
+4. Run the macro to generate your 3D blade model
 
 ## Usage
 
-1. Choose your calculation mode:
-   - **Match Generator**: Calculate optimal diameter based on generator specifications
-   - **Choose Diameter**: Design a propeller for a specific diameter
+### Web Application
+1. Choose your calculation mode (Match Generator or Choose Diameter)
+2. Enter the required parameters
+3. Review the results and visualizations
+4. Export to OpenSCAD or FreeCAD format
 
-2. Enter the required parameters:
-   - Tip Speed Ratio (TSR)
-   - Number of Blades
-   - Generator Power (if matching generator)
-   - Generator RPM (if matching generator)
-   - Gear Ratio (if matching generator)
-   - Diameter (if choosing diameter)
-   - Number of Stations
+### FreeCAD Integration
+1. Generate the macro file from the web application
+2. Open in FreeCAD
+3. Run the macro to create the 3D model
+4. Export to your preferred 3D format (STL, STEP, etc.)
 
-3. Click "Calculate Design" to generate the propeller specifications
-
-4. Review the results:
-   - Overall dimensions
-   - Warnings and recommendations
-   - Detailed station measurements
-   - 2D blade profile visualization
-   - Animated turbine preview
-   - OpenSCAD export for 3D printing
-
-## Development
-
-### Tech Stack
-
-- React 18.2
-- TypeScript 5.2
-- Vite 5.0
-- Tailwind CSS 3.4
-- Math.js
-- OpenSCAD integration
-
-### Project Structure
+## Project Structure
 
 ```
-turbine-designer/
-├── public/               # Static assets
-│   ├── components/      # React components
-│   │   ├── BladeVisualization.tsx
-│   │   ├── TurbineAnimation.tsx
-│   │   └── OpenScadExport.tsx
-│   ├── utils/          # Utility functions
-│   │   └── calculations.ts
-│   ├── App.tsx         # Main application
-│   └── main.tsx        # Entry point
-├── setup.bat           # Windows setup script
-└── package.json        # Dependencies and scripts
+turbines/
+├── turbine-designer/     # Web application
+│   ├── src/             # Source code
+│   │   ├── components/  # React components
+│   │   └── utils/       # Utility functions
+│   └── package.json     # Dependencies
+│
+├── FreeCAD/             # FreeCAD integration
+│   └── src/             # FreeCAD macro generation
+│       └── main.js      # Macro template
+│
+└── README.md            # This file
 ```
-
-### Available Scripts
-
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
-- `npm run lint` - Run ESLint
-- `npm run type-check` - Run TypeScript type checking
 
 ## Contributing
 
@@ -132,3 +117,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Hugh Piggott's "Scrapyard Windpower Realities" for the original BASIC program
 - [NACA Airfoil Series](https://en.wikipedia.org/wiki/NACA_airfoil) for airfoil data
 - [OpenSCAD](https://openscad.org/) for 3D model generation
+- [FreeCAD](https://www.freecadweb.org/) for 3D modeling capabilities
