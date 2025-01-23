@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wind Turbine FreeCAD Generator</title>
+    <link rel="stylesheet" href="/public/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Wind Turbine FreeCAD Generator</h1>
+        <div id="app">
+            <form id="turbineForm">
+                <div class="input-group">
+                    <label>
+                        <input type="radio" name="designMethod" value="generator" checked>
+                        Match Generator
+                    </label>
+                    <label>
+                        <input type="radio" name="designMethod" value="custom">
+                        Choose Diameter
+                    </label>
+                </div>
+
+                <div id="generatorInputs">
+                    <div class="input-group">
+                        <label for="power">Generator Power (watts):</label>
+                        <input type="number" id="power" value="100" min="1" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="rpm">Generator RPM:</label>
+                        <input type="number" id="rpm" value="300" min="1" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="gearRatio">Gear Ratio:</label>
+                        <input type="number" id="gearRatio" value="1" min="0.1" step="0.1" required>
+                    </div>
+                </div>
+
+                <div id="diameterInput" style="display: none;">
+                    <div class="input-group">
+                        <label for="diameter">Diameter (meters):</label>
+                        <input type="number" id="diameter" value="2" min="0.1" step="0.1">
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="tipSpeedRatio">Tip Speed Ratio:</label>
+                    <input type="number" id="tipSpeedRatio" value="7" min="1" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="bladeCount">Number of Blades:</label>
+                    <input type="number" id="bladeCount" value="3" min="1" max="12" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="stations">Number of Stations:</label>
+                    <input type="number" id="stations" value="6" min="3" max="20" required>
+                </div>
+
+                <button type="submit">Generate FreeCAD Macro</button>
+            </form>
+
+            <div id="warnings" class="warnings"></div>
+        </div>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+</body>
+</html> 
