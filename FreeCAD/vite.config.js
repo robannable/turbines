@@ -2,7 +2,7 @@ import { defineConfig } from 'vite'
 import { resolve } from 'path'
 
 export default defineConfig({
-  base: '/turbines/freecad/',
+  base: './',
   root: '.',
   publicDir: 'public',
   build: {
