@@ -1,18 +1,32 @@
+import React, { useEffect } from 'react';
+import './style.css';
+
 class TurbineDesigner {
+    private form: HTMLFormElement | null = null;
+    private warnings: HTMLElement | null = null;
+
     constructor() {
-        this.form = document.getElementById('turbineForm');
-        this.warnings = document.getElementById('warnings');
-        this.setupEventListeners();
+        useEffect(() => {
+            this.form = document.getElementById('turbineForm') as HTMLFormElement;
+            this.warnings = document.getElementById('warnings');
+            this.setupEventListeners();
+        }, []);
     }
 
-    setupEventListeners() {
+    private setupEventListeners() {
+        if (!this.form) return;
+
         // Toggle between generator and custom diameter inputs
         document.querySelectorAll('input[name="designMethod"]').forEach(radio => {
             radio.addEventListener('change', (e) => {
-                document.getElementById('generatorInputs').style.display = 
-                    e.target.value === 'generator' ? 'block' : 'none';
-                document.getElementById('diameterInput').style.display = 
-                    e.target.value === 'custom' ? 'block' : 'none';
+                const target = e.target as HTMLInputElement;
+                const generatorInputs = document.getElementById('generatorInputs');
+                const diameterInput = document.getElementById('diameterInput');
+                
+                if (generatorInputs && diameterInput) {
+                    generatorInputs.style.display = target.value === 'generator' ? 'block' : 'none';
+                    diameterInput.style.display = target.value === 'custom' ? 'block' : 'none';
+                }
             });
         });
 
@@ -23,9 +37,9 @@ class TurbineDesigner {
         });
     }
 
-    validateInputs() {
-        const tsr = parseFloat(document.getElementById('tipSpeedRatio').value);
-        const blades = parseInt(document.getElementById('bladeCount').value);
+    private validateInputs() {
+        const tsr = parseFloat((document.getElementById('tipSpeedRatio') as HTMLInputElement).value);
+        const blades = parseInt((document.getElementById('bladeCount') as HTMLInputElement).value);
         
         let warnings = [];
         
@@ -39,15 +53,15 @@ class TurbineDesigner {
         return warnings;
     }
 
-    calculateDiameter(power, rpm, gearRatio) {
+    private calculateDiameter(power: number, rpm: number, gearRatio: number) {
         rpm = rpm / gearRatio;
-        const tsr = parseFloat(document.getElementById('tipSpeedRatio').value);
+        const tsr = parseFloat((document.getElementById('tipSpeedRatio') as HTMLInputElement).value);
         return Math.pow(power * Math.pow(47 * tsr / rpm, 3), 0.2);
     }
 
-    generateStationData(diameter, stations) {
-        const tsr = parseFloat(document.getElementById('tipSpeedRatio').value);
-        const blades = parseInt(document.getElementById('bladeCount').value);
+    private generateStationData(diameter: number, stations: number) {
+        const tsr = parseFloat((document.getElementById('tipSpeedRatio') as HTMLInputElement).value);
+        const blades = parseInt((document.getElementById('bladeCount') as HTMLInputElement).value);
         let data = [];
 
         for (let x = 1; x <= stations; x++) {
@@ -71,29 +85,33 @@ class TurbineDesigner {
         return data;
     }
 
-    generateMacro() {
+    private generateMacro() {
+        if (!this.warnings) return;
+
         const warnings = this.validateInputs();
         this.warnings.innerHTML = warnings.join('<br>');
 
         let diameter;
-        if (document.querySelector('input[name="designMethod"]:checked').value === 'generator') {
-            const power = parseFloat(document.getElementById('power').value);
-            const rpm = parseFloat(document.getElementById('rpm').value);
-            const gearRatio = parseFloat(document.getElementById('gearRatio').value);
+        const designMethod = (document.querySelector('input[name="designMethod"]:checked') as HTMLInputElement).value;
+        
+        if (designMethod === 'generator') {
+            const power = parseFloat((document.getElementById('power') as HTMLInputElement).value);
+            const rpm = parseFloat((document.getElementById('rpm') as HTMLInputElement).value);
+            const gearRatio = parseFloat((document.getElementById('gearRatio') as HTMLInputElement).value);
             diameter = this.calculateDiameter(power, rpm, gearRatio);
         } else {
-            diameter = parseFloat(document.getElementById('diameter').value);
+            diameter = parseFloat((document.getElementById('diameter') as HTMLInputElement).value);
         }
 
-        const stations = parseInt(document.getElementById('stations').value);
+        const stations = parseInt((document.getElementById('stations') as HTMLInputElement).value);
         const stationData = this.generateStationData(diameter, stations);
         
         // Generate and download the FreeCAD macro
         this.createAndDownloadMacro(stationData);
     }
 
-    createAndDownloadMacro(stationData) {
-        // Create the macro content (template will be shown in next step)
+    private createAndDownloadMacro(stationData: any[]) {
+        // Create the macro content
         const macroContent = this.generateMacroContent(stationData);
         
         // Create and trigger download
@@ -108,7 +126,7 @@ class TurbineDesigner {
         window.URL.revokeObjectURL(url);
     }
 
-    generateMacroContent(stationData) {
+    private generateMacroContent(stationData: any[]) {
         return `import FreeCAD as App
 import Part
 import Draft
@@ -222,7 +240,71 @@ Gui.activeDocument().activeView().viewAxonometric()`;
     }
 }
 
-// Initialize the designer when the page loads
-document.addEventListener('DOMContentLoaded', () => {
-    new TurbineDesigner();
-}); 
+const FreeCADGenerator: React.FC = () => {
+    useEffect(() => {
+        new TurbineDesigner();
+    }, []);
+
+    return (
+        <div className="container">
+            <h1>Wind Turbine FreeCAD Generator</h1>
+            <div id="app">
+                <form id="turbineForm">
+                    <div className="input-group">
+                        <label>
+                            <input type="radio" name="designMethod" value="generator" defaultChecked />
+                            Match Generator
+                        </label>
+                        <label>
+                            <input type="radio" name="designMethod" value="custom" />
+                            Choose Diameter
+                        </label>
+                    </div>
+
+                    <div id="generatorInputs">
+                        <div className="input-group">
+                            <label htmlFor="power">Generator Power (watts):</label>
+                            <input type="number" id="power" defaultValue="100" min="1" required />
+                        </div>
+                        <div className="input-group">
+                            <label htmlFor="rpm">Generator RPM:</label>
+                            <input type="number" id="rpm" defaultValue="300" min="1" required />
+                        </div>
+                        <div className="input-group">
+                            <label htmlFor="gearRatio">Gear Ratio:</label>
+                            <input type="number" id="gearRatio" defaultValue="1" min="0.1" step="0.1" required />
+                        </div>
+                    </div>
+
+                    <div id="diameterInput" style={{ display: 'none' }}>
+                        <div className="input-group">
+                            <label htmlFor="diameter">Diameter (meters):</label>
+                            <input type="number" id="diameter" defaultValue="2" min="0.1" step="0.1" />
+                        </div>
+                    </div>
+
+                    <div className="input-group">
+                        <label htmlFor="tipSpeedRatio">Tip Speed Ratio:</label>
+                        <input type="number" id="tipSpeedRatio" defaultValue="7" min="1" required />
+                    </div>
+
+                    <div className="input-group">
+                        <label htmlFor="bladeCount">Number of Blades:</label>
+                        <input type="number" id="bladeCount" defaultValue="3" min="1" max="12" required />
+                    </div>
+
+                    <div className="input-group">
+                        <label htmlFor="stations">Number of Stations:</label>
+                        <input type="number" id="stations" defaultValue="6" min="3" max="20" required />
+                    </div>
+
+                    <button type="submit">Generate FreeCAD Macro</button>
+                </form>
+
+                <div id="warnings" className="warnings"></div>
+            </div>
+        </div>
+    );
+};
+
+export default FreeCADGenerator; 
