@@ -22,14 +22,14 @@ jobs:
         with:
           node-version: '18'
           
-      - name: Install dependencies for FreeCAD app
+      - name: Install dependencies
         run: |
-          cd FreeCAD
+          cd turbine-designer
           npm install
         
-      - name: Build FreeCAD app
+      - name: Build
         run: |
-          cd FreeCAD
+          cd turbine-designer
           npm run build
         
       - name: Setup Pages
@@ -38,7 +38,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './FreeCAD/dist'
+          path: './turbine-designer/dist'
 
   deploy:
     needs: build

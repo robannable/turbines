@@ -8,7 +8,7 @@
 
 A comprehensive tool suite for designing wind turbine propellers, consisting of:
 1. A modern web application for calculating optimal propeller dimensions
-2. A FreeCAD integration for generating 3D models
+2. A local FreeCAD integration for generating 3D models
 
 Created with an agentic LLM using "A BASIC COMPUTER PROGRAM to help you design windmill rotor blades - Extract from 'Scrapyard Windpower Realities' by Hugh Piggott"
 
@@ -23,20 +23,17 @@ Created with an agentic LLM using "A BASIC COMPUTER PROGRAM to help you design w
 - OpenSCAD export for 3D printing
 - Responsive design
 
-### 2. FreeCAD Integration (`/FreeCAD`)
+### 2. FreeCAD Integration (`/FreeCAD`) - Local Development Only
 - Generate accurate 3D models of turbine blades
 - NACA 4412 airfoil profile implementation
 - Automatic hub connection generation
 - Export to various 3D formats (STL, STEP, etc.)
 - Compatible with FreeCAD's Python environment
+- Runs locally on your machine
 
 ## Demo
 
-### Web Application
-[Live Demo](https://robannable.github.io/turbines/)
-
-### FreeCAD Interface
-[FreeCAD Web Interface](https://robannable.github.io/turbines/freecad/)
+[Live Demo](https://robannable.github.io/turbines/) - Web Application Only
 
 ## Getting Started
 
@@ -44,7 +41,7 @@ Created with an agentic LLM using "A BASIC COMPUTER PROGRAM to help you design w
 
 - Node.js 16.0 or higher
 - npm 7.0 or higher
-- FreeCAD 0.20 or higher (for 3D modeling)
+- FreeCAD 0.20 or higher (for local 3D modeling)
 
 ### Web Application Setup
 
@@ -62,12 +59,27 @@ Created with an agentic LLM using "A BASIC COMPUTER PROGRAM to help you design w
 
 3. Open your browser and navigate to `http://localhost:5173`
 
-### FreeCAD Integration
+### Local FreeCAD Integration Setup
 
-1. Open FreeCAD
-2. Navigate to the Macro menu
-3. Load the generated `.FCMacro` file from the web application
-4. Run the macro to generate your 3D blade model
+1. Navigate to the FreeCAD directory:
+   ```bash
+   cd turbines/FreeCAD
+   ```
+
+2. Install dependencies and start the local server:
+   ```bash
+   npm install
+   npm run dev
+   ```
+
+3. Open your browser and navigate to the local development URL (typically `http://localhost:5173`)
+
+4. Generate your macro and use it with FreeCAD:
+   - Use the web interface to generate the macro
+   - Open FreeCAD
+   - Navigate to the Macro menu
+   - Load the generated `.FCMacro` file
+   - Run the macro to create your 3D model
 
 ## Usage
 
@@ -77,11 +89,12 @@ Created with an agentic LLM using "A BASIC COMPUTER PROGRAM to help you design w
 3. Review the results and visualizations
 4. Export to OpenSCAD or FreeCAD format
 
-### FreeCAD Integration
-1. Generate the macro file from the web application
-2. Open in FreeCAD
-3. Run the macro to create the 3D model
-4. Export to your preferred 3D format (STL, STEP, etc.)
+### Local FreeCAD Integration
+1. Start the local FreeCAD interface
+2. Generate the macro file using the interface
+3. Open in FreeCAD
+4. Run the macro to create the 3D model
+5. Export to your preferred 3D format (STL, STEP, etc.)
 
 ## Project Structure
 
