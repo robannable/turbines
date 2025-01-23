@@ -22,25 +22,23 @@ jobs:
         with:
           node-version: '18'
           
-      - name: Build FreeCAD app
+      - name: Install dependencies for FreeCAD app
         run: |
           cd FreeCAD
           npm install
+        
+      - name: Build FreeCAD app
+        run: |
+          cd FreeCAD
           npm run build
         
       - name: Setup Pages
         uses: actions/configure-pages@v4
         
-      - name: Prepare output
-        run: |
-          mkdir -p dist
-          mkdir -p dist/freecad
-          cp -r FreeCAD/dist/* dist/freecad/
-        
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './dist'
+          path: './FreeCAD/dist'
 
   deploy:
     needs: build
