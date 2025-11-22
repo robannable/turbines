@@ -1,8 +1,22 @@
-Source file for the wind turbine propeller designer:
+# Original BASIC Source Code
 
-A BASIC COMPUTER PROGRAM to help you design windmill rotor blades.
+## Wind Turbine Blade Design Program
 
-(Extract from ‘Scrapyard Windpower Realities’ by Hugh Piggott)
+This is the original BASIC computer program that forms the mathematical foundation of this modern web application. Written by **Hugh Piggott** and published in his book *"Scrapyard Windpower Realities"*, this program has been helping DIY wind turbine builders design efficient blades for over 30 years.
+
+### About This Code
+
+**What is BASIC?** BASIC (Beginner's All-purpose Symbolic Instruction Code) was a popular programming language in the 1970s-1990s. This code would have been typed into early home computers like the Commodore 64, Apple II, or early PCs.
+
+**Why preserve this?** This program represents practical, field-tested engineering knowledge. While we've modernized the interface, the core mathematics remain valid and are still used in our web calculator.
+
+**Historical Context:** Hugh Piggott is a pioneer in small-scale wind power and has helped thousands of people worldwide build their own wind turbines using recycled materials ("scrapyard" parts).
+
+---
+
+## The Original Program
+
+*Extract from 'Scrapyard Windpower Realities' by Hugh Piggott*
 
 
 
@@ -53,4 +67,71 @@ A BASIC COMPUTER PROGRAM to help you design windmill rotor blades.
 540 PRINT VAR$;
 560 RETURN
 
-Above undoubtedly superseded by more current designs!: http://scoraigwind.co.uk/all-of-the-books-by-hugh-how-to-get-them/
+---
+
+## Understanding the Program
+
+**For Non-Programmers:** Here's what this code does, step by step:
+
+### Main Flow:
+1. **Lines 10-30:** Ask the user for basic parameters (TSR, number of blades)
+2. **Lines 40-70:** Present a menu - either match a generator or choose your own diameter
+3. **Lines 100-195:** If matching generator, calculate the optimal diameter
+4. **Lines 200-320:** Calculate and display the blade dimensions station by station
+
+### Key Calculations:
+
+**Line 150:** The diameter formula
+```
+D = (P * (47 * TSR / RPM)³)^0.2
+```
+This determines how big your turbine should be based on your generator's power (P) and speed (RPM).
+
+**Line 240:** Radius for each station
+- Divides the blade into N equal sections
+
+**Line 250:** Setting angle (twist) at each station
+```
+FLO = arctan(D / 3 / TSR / R)
+```
+Calculates how much to twist the blade at each point for optimal wind capture.
+
+**Line 260:** Chord (blade width) at each station
+```
+CH = 1.7 * D² / B / R / TSR² * cos(FLO)²
+```
+Wider near the hub, narrower at the tip - this is the characteristic tapered shape.
+
+**Lines 265-280:** Width, drop, and thickness measurements
+- These are the actual dimensions you need for carving/building the blade
+
+### Safety Warnings in the Code:
+
+- **Line 25:** TSR > 15 = "That's ambitious!" (too fast, risky)
+- **Line 35:** TSR × Blades > 24 = "Too many blades?" (creates too much drag)
+- **Line 165:** Tip speed > 90 m/s = Erosion warning (rain and dust damage)
+- **Line 175:** Hub speed < 13 m/s = "Try some gearing" (generator won't work efficiently)
+
+### Units Used:
+- Power: Watts
+- Speed: meters per second (m/s)
+- Distance: meters
+- Torque: Newton-metres
+- Angles: degrees
+
+---
+
+## Modern Update
+
+While Hugh Piggott notes this program has been "undoubtedly superseded by more current designs," the fundamental mathematics remain sound for small-scale DIY wind turbines. Our modern web application:
+
+- Uses the same proven formulas
+- Adds real-time validation and warnings
+- Provides 3D visualization
+- Offers multiple export formats
+- Includes the NACA 4412 airfoil profile for better aerodynamics
+
+**Learn More:** Visit Hugh Piggott's website for his complete collection of books and resources:
+http://scoraigwind.co.uk/all-of-the-books-by-hugh-how-to-get-them/
+
+**Acknowledgment:** We are grateful to Hugh Piggott for pioneering accessible small-scale wind power technology and making this knowledge freely available to the DIY community.
