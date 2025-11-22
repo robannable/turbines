@@ -262,9 +262,10 @@ function App() {
                 </table>
               </div>
 
-              <OpenScadExport 
+              <OpenScadExport
                 stations={design.stations}
                 diameter={design.diameter}
+                numberOfBlades={inputs.numberOfBlades}
               />
             </div>
           )}
